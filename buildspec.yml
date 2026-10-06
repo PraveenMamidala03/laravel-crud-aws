@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      php: 8.2
+    commands:
+      - echo "Installing dependencies..."
+      - composer install --no-interaction --prefer-dist --optimize-autoloader
+
+  pre_build:
+    commands:
+      - echo "Preparing Laravel application..."
+      - cp .env.example .env
+      - php artisan key:generate
+
+  build:
+    commands:
+      - echo "Running Laravel tests..."
+      - php artisan test
+
+  post_build:
+    commands:
+      - echo "Laravel build completed successfully"
+
+artifacts:
+  files:
+    - '**/*'
